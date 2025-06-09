@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
+from flask import jsonify
+from flask_jwt_extended.exceptions import NoAuthorizationError
 
 from datetime import timedelta
 
@@ -23,10 +25,11 @@ def create_app():
     ma.init_app(app)
     jwt.init_app(app)
 
-    from app.url import api_bp
+    from app.v1.url import api_bp
     app.register_blueprint(api_bp)
 
     with app.app_context():
         db.create_all()
-    
+
+
     return app
