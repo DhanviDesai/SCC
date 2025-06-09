@@ -1,7 +1,7 @@
-from app.resources.user_resource import UserListResource, UserResource
-from app.resources.auth_resource import LoginResource, RefreshTokenResource, LogoutResource, LogoutRefreshResource
+from app.v1.resources.user_resource import UserListResource, UserResource
+from app.v1.resources.auth_resource import LoginResource, RefreshTokenResource, LogoutResource, LogoutRefreshResource
 
-from app.url import api
+from app.v1.url import api
 
 api.add_resource(UserListResource, '/users')
 api.add_resource(UserResource, '/users/<int:user_id>')
