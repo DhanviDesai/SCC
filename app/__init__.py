@@ -12,8 +12,8 @@ jwt = JWTManager()
 from app.utils.token_blocklist import is_token_revoked
 
 @jwt.token_in_blocklist_loader
-def check_if_token_revoked(jwt_header, jwt_payload):
-    return is_token_revoked(jwt_payload['jti'])
+def check_if_token_revoked(jwt_header, jwt_payload): # The decorator expects header and payload
+    return is_token_revoked(jwt_payload) # is_token_revoked from utils now takes the full payload
 
 def create_app():
     app = Flask(__name__)
@@ -22,6 +22,10 @@ def create_app():
     db.init_app(app)
     ma.init_app(app)
     jwt.init_app(app)
+
+    # Import and register security headers middleware
+    from app.middleware import add_security_headers
+    app.after_request(add_security_headers)
 
     from app.url import api_bp
     app.register_blueprint(api_bp)
